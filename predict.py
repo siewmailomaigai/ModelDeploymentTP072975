@@ -28,13 +28,22 @@ def run_prediction_page():
         'Alcohol use disorders (%)': [alcohol_use]
     })
 
+    # Feature Engineering: Add interaction terms used during training
+    input_data['Schizophrenia_Bipolar'] = input_data['Schizophrenia (%)'] * input_data['Bipolar disorder (%)']
+    input_data['Anxiety_Drug'] = input_data['Anxiety disorders (%)'] * input_data['Drug use disorders (%)']
+
     # Make prediction
     if st.button("Predict"):
         prediction = model.predict(input_data)
         st.write(f"Prediction: {'High Risk' if prediction[0] == 1 else 'Low Risk'}")
 
         # LIME Interpretability
-        explainer = LimeTabularExplainer(input_data.values, feature_names=input_data.columns, class_names=['Low', 'High'], mode='classification')
+        explainer = LimeTabularExplainer(
+            np.array(input_data),
+            feature_names=input_data.columns,
+            class_names=['Low', 'High'],
+            mode='classification'
+        )
         explanation = explainer.explain_instance(input_data.iloc[0].values, model.predict_proba, num_features=5)
         st.write("Feature Importance for Prediction:")
         st.write(explanation.as_list())
