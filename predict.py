@@ -2,50 +2,44 @@ import streamlit as st
 import pickle
 import pandas as pd
 from lime.lime_tabular import LimeTabularExplainer
-import lightgbm as lgb
 import numpy as np
 
-# Load the pre-trained model
+# Load the pre-trained LightGBM model
 with open('lightgbm_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
-def run_prediction_page():
-    st.title("Mental Health Prediction with LightGBM")
+# Load the dataset
+data = pd.read_csv('preprocessedfinal_mental_health_data_standardized.csv')
 
-    # User inputs for model features
-    schizophrenia = st.slider("Schizophrenia (%)", 0.0, 100.0, 10.0)
-    bipolar = st.slider("Bipolar Disorder (%)", 0.0, 100.0, 10.0)
-    anxiety = st.slider("Anxiety Disorders (%)", 0.0, 100.0, 10.0)
-    drug_use = st.slider("Drug Use Disorders (%)", 0.0, 100.0, 10.0)
-    alcohol_use = st.slider("Alcohol Use Disorders (%)", 0.0, 100.0, 10.0)
+# Prepare the data
+X = data.drop(columns=['Depression (%)'])
+y = (data['Depression (%)'] > data['Depression (%)'].median()).astype(int)
 
-    # Create dataframe for input
-    input_data = pd.DataFrame({
-        'Schizophrenia (%)': [schizophrenia],
-        'Bipolar disorder (%)': [bipolar],
-        'Anxiety disorders (%)': [anxiety],
-        'Drug use disorders (%)': [drug_use],
-        'Alcohol use disorders (%)': [alcohol_use]
-    })
+# Feature Engineering
+X['Schizophrenia_Bipolar'] = X['Schizophrenia (%)'] * X['Bipolar disorder (%)']
+X['Anxiety_Drug'] = X['Anxiety disorders (%)'] * X['Drug use disorders (%)']
 
-    # Feature Engineering: Add interaction terms used during training
-    input_data['Schizophrenia_Bipolar'] = input_data['Schizophrenia (%)'] * input_data['Bipolar disorder (%)']
-    input_data['Anxiety_Drug'] = input_data['Anxiety disorders (%)'] * input_data['Drug use disorders (%)']
+# Function to run LIME analysis
+def run_lime_analysis():
+    st.title("LIME Interpretability Analysis")
 
-    # Make prediction
-    if st.button("Predict"):
-        prediction = model.predict(input_data)
-        st.write(f"Prediction: {'High Risk' if prediction[0] == 1 else 'Low Risk'}")
+    # Select sample index for LIME analysis
+    sample_idx = st.slider("Select Sample Index for LIME", 0, X.shape[0] - 1, 0)
 
-        # LIME Interpretability
-        explainer = LimeTabularExplainer(
-            np.array(input_data),
-            feature_names=input_data.columns,
-            class_names=['Low', 'High'],
-            mode='classification'
-        )
-        explanation = explainer.explain_instance(input_data.iloc[0].values, model.predict_proba, num_features=5)
-        st.write("Feature Importance for Prediction:")
-        st.write(explanation.as_list())
-        explanation.as_pyplot_figure()
-        st.pyplot()
+    # Select the sample data
+    input_data = X.iloc[[sample_idx]]
+
+    # LIME interpretability
+    explainer = LimeTabularExplainer(
+        X.values,
+        feature_names=X.columns,
+        class_names=['Low', 'High'],
+        mode='classification'
+    )
+
+    # Explain the selected instance
+    explanation = explainer.explain_instance(input_data.iloc[0].values, model.predict_proba, num_features=5)
+    st.write("Feature Importance for Selected Instance:")
+    st.write(explanation.as_list())
+    explanation.as_pyplot_figure()
+    st.pyplot()
