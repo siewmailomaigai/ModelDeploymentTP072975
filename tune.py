@@ -9,6 +9,10 @@ data = pd.read_csv('preprocessedfinal_mental_health_data_standardized.csv')
 X = data.drop(columns=['Depression (%)'])
 y = (data['Depression (%)'] > data['Depression (%)'].median()).astype(int)
 
+# Feature Engineering for Tuning
+X['Schizophrenia_Bipolar'] = X['Schizophrenia (%)'] * X['Bipolar disorder (%)']
+X['Anxiety_Drug'] = X['Anxiety disorders (%)'] * X['Drug use disorders (%)']
+
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
