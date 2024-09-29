@@ -1,6 +1,6 @@
 import streamlit as st
-import pickle
 import pandas as pd
+import pickle
 from lime.lime_tabular import LimeTabularExplainer
 
 # Load the pre-trained model
