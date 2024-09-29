@@ -1,3 +1,5 @@
+import streamlit as st
+from lime.lime_tabular import LimeTabularExplainer
 from model import X_train_smote, X_test
 
 def display_lime_analysis(model):
