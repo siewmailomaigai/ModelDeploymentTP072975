@@ -1,27 +1,32 @@
-import streamlit as st
-from model import lgb_model, X_train_smote, y_train_smote, X_test, y_test
-from performance import display_performance_metrics
-from lime_analysis import display_lime_analysis
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from imblearn.over_sampling import SMOTE
+import lightgbm as lgb
 
-# Tuning Page
-def run_tuning_page():
-    st.title("LightGBM Model Tuning")
-    
-    # Tuning sliders for key parameters
-    n_estimators = st.slider("Number of Boosting Rounds (n_estimators)", 10, 150, 50)
-    learning_rate = st.slider("Learning Rate", 0.01, 0.5, 0.1)
-    max_depth = st.slider("Max Depth", -1, 20, -1)
+# Load dataset
+data = pd.read_csv('preprocessedfinal_mental_health_data_standardized.csv')
 
-    # Update the model with tuned parameters
-    lgb_model.set_params(n_estimators=n_estimators, learning_rate=learning_rate, max_depth=max_depth)
-    lgb_model.fit(X_train_smote, y_train_smote)
+# Drop non-numeric columns and target
+X = data.drop(columns=['index', 'Entity', 'Code', 'Year', 'Depression (%)'])
+y = (data['Depression (%)'] > data['Depression (%)'].median()).astype(int)
 
-    # Sidebar navigation for performance metrics or LIME analysis
-    st.subheader("View Results")
-    option = st.radio("Select what to view", ["Performance Metrics", "LIME Analysis"])
+# Feature Engineering
+X['Schizophrenia_Bipolar'] = X['Schizophrenia (%)'] * X['Bipolar disorder (%)']
+X['Anxiety_Drug'] = X['Anxiety disorders (%)'] * X['Drug use disorders (%)']
 
-    # Routing to display metrics or LIME analysis
-    if option == "Performance Metrics":
-        display_performance_metrics(lgb_model)
-    elif option == "LIME Analysis":
-        display_lime_analysis(lgb_model)
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+# Apply SMOTE to balance the classes in the training set
+smote = SMOTE(random_state=42)
+X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
+
+# Define the LightGBM model (initial parameters)
+lgb_model = lgb.LGBMClassifier(
+    boosting_type='gbdt',
+    num_leaves=31,
+    max_depth=-1,
+    learning_rate=0.1,
+    n_estimators=50,
+    random_state=42
+)
