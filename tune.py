@@ -5,8 +5,7 @@ import pandas as pd
 from imblearn.over_sampling import SMOTE
 
 # Load dataset
-data = pd.read_csv('/mnt/data/preprocessedfinal_mental_health_data_standardized.csv')
-
+data = pd.read_csv('preprocessedfinal_mental_health_data_standardized.csv')
 
 # Drop non-numeric columns and target
 X = data.drop(columns=['index', 'Entity', 'Code', 'Year', 'Depression (%)'])
