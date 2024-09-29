@@ -1,14 +1,19 @@
 import streamlit as st
 import lightgbm as lgb
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import roc_auc_score
 import pandas as pd
 from imblearn.over_sampling import SMOTE
 
 # Load dataset
-data = pd.read_csv('preprocessedfinal_mental_health_data_standardized.csv')
-X = data.drop(columns=['Depression (%)'])
+data = pd.read_csv('path_to_data/preprocessedfinal_mental_health_data_standardized.csv')
+
+# Drop non-numeric columns and target
+X = data.drop(columns=['index', 'Entity', 'Code', 'Year', 'Depression (%)'])
 y = (data['Depression (%)'] > data['Depression (%)'].median()).astype(int)
+
+# Feature Engineering
+X['Schizophrenia_Bipolar'] = X['Schizophrenia (%)'] * X['Bipolar disorder (%)']
+X['Anxiety_Drug'] = X['Anxiety disorders (%)'] * X['Drug use disorders (%)']
 
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -30,9 +35,9 @@ def run_tuning_page():
     model.fit(X_train_smote, y_train_smote)
 
     # Evaluate the model
-    y_pred = model.predict(X_test)
     auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
 
     # Display metrics
     st.write(f"Test AUC: {auc:.4f}")
     st.write(f"Test Accuracy: {model.score(X_test, y_test) * 100:.2f}%")
+
