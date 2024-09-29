@@ -3,7 +3,7 @@ from tuning import run_tuning_page
 
 # Main App
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("[Model Tuning]")
+page = st.sidebar.radio(["Model Tuning"])
 
 # Routing to the pages
 if page == "Model Tuning":
