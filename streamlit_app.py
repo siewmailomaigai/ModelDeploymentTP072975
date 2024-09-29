@@ -5,8 +5,8 @@ from tuning import run_tuning_page
 image_1 = "Sustainable_Development_Goal_03GoodHealth.svg"
 image_2 = "APUlogo.jpg"
 
-# Add image icons at the top left with minimal spacing
-col1, col2 = st.columns([0.5, 0.5])  # Reduce the column width to bring them closer
+# Create columns with reduced spacing and bring images closer
+col1, col2, empty_col = st.columns([1, 0.1, 1])  # Adjust column ratio to make the images closer
 with col1:
     st.image(image_1, width=150)
 
