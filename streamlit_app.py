@@ -9,6 +9,8 @@ image_2 = "APUlogo.jpg"
 col1, col2 = st.columns(2)  # Create two columns
 with col1:
     st.image(image_1, width=150, height=150)  
+
+with col2;
     st.image(image_2, width=150, height=150)
 
 # Sidebar navigation
