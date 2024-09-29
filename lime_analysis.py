@@ -12,7 +12,7 @@ def display_lime_analysis(model):
         mode='classification'
     )
 
-    # Loop through a few example instances
+    # Loop through selected instances
     for instance_idx in [0, 5, 10, 15, 20]:  # Adjust based on instances of interest
         st.write(f"Explanation for instance {instance_idx}:")
         
@@ -20,7 +20,7 @@ def display_lime_analysis(model):
         exp = explainer.explain_instance(
             X_test.iloc[instance_idx].values, 
             model.predict_proba, 
-            num_features=3  # Show the top 3 important features
+            num_features=len(X_train_smote.columns)  # Show all features
         )
 
         # Plot the LIME explanation for feature importance
@@ -29,5 +29,10 @@ def display_lime_analysis(model):
         plt.tight_layout()  # Ensure the plot doesn't overlap
         st.pyplot(plt)  # Use Streamlit's display function for plots
 
-        # Optionally, show the explanation details
-        st.write(exp.as_list())  # This shows the top 3 features in a textual format
+        # Extract the top 3 most important features
+        top_3_features = sorted(exp.as_list(), key=lambda x: abs(x[1]), reverse=True)[:3]
+        
+        # Print the top 3 feature importances below the plot
+        st.write("**Top 3 Important Features for this instance**:")
+        for feature, importance in top_3_features:
+            st.write(f"- {feature}: {importance:.4f}")
