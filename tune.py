@@ -5,7 +5,7 @@ from sklearn.metrics import roc_auc_score
 import pandas as pd
 
 # Load dataset
-data = pd.read_csv('preprocessed_mental_health_data.csv')
+data = pd.read_csv(r'C:\Users\60192\Downloads\preprocessedfinal_mental_health_data_standardized.csv')
 X = data.drop(columns=['Depression (%)'])
 y = (data['Depression (%)'] > data['Depression (%)'].median()).astype(int)
 
