@@ -6,7 +6,7 @@ image_1 = "Sustainable_Development_Goal_03GoodHealth.svg"
 image_2 = "APUlogo.jpg"
 
 # Create columns with reduced spacing and bring images closer
-col1, col2, empty_col = st.columns([1, 2, 1])  # Adjust column ratio to make the images closer
+col1, col2, empty_col = st.columns([1, 2.5, 1])  # Adjust column ratio to make the images closer
 with col1:
     st.image(image_1, width=150)
 
