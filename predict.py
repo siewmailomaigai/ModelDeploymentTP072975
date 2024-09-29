@@ -14,7 +14,7 @@ def run_prediction_page():
     st.title("Mental Health Prediction with LightGBM")
 
     # Load and preprocess the dataset
-    data = pd.read_csv('path_to_data/preprocessedfinal_mental_health_data_standardized.csv')
+    data = pd.read_csv('preprocessedfinal_mental_health_data_standardized.csv')
 
     # Drop non-numeric columns and target
     X = data.drop(columns=['index', 'Entity', 'Code', 'Year', 'Depression (%)'])
