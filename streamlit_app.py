@@ -8,10 +8,10 @@ image_2 = "APUlogo.jpg"
 # Add image icons at the top left
 col1, col2 = st.columns([1,9])  # Create two columns
 with col1:
-    st.image(image_1, width=150, height=150)  
+    st.image(image_1, width=150)  
 
 with col2:
-    st.image(image_2, width=150, height=150)
+    st.image(image_2, width=150)
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
