@@ -2,8 +2,8 @@ import streamlit as st
 from tuning import run_tuning_page
 
 # Load image icons
-image_1 = "Sustainable_Development_Goal_03GoodHealth.svg"  # Replace with actual file path or URL
-image_2 = "path_to_your_image_2.png"  # Replace with actual file path or URL
+image_1 = "Sustainable_Development_Goal_03GoodHealth.svg"
+image_2 = "path_to_your_image_2.png" 
 
 # Add image icons at the top left
 col1, col2 = st.columns([1, 9])  # Create two columns
