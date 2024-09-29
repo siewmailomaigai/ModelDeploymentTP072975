@@ -5,26 +5,13 @@ from tuning import run_tuning_page
 image_1 = "Sustainable_Development_Goal_03GoodHealth.svg"
 image_2 = "APUlogo.jpg"
 
-# Add image icons side by side
-st.markdown(
-    """
-    <style>
-    .container {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    .container img {
-        margin-right: 20px; /* Adjust margin as necessary */
-    }
-    </style>
-    <div class="container">
-        <img src="Sustainable_Development_Goal_03GoodHealth.svg" alt="Image 1" width="150">
-        <img src="APUlogo.jpg" alt="Image 2" width="150">
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
+# Add image icons at the top left with minimal spacing
+col1, col2 = st.columns([0.5, 0.5])  # Reduce the column width to bring them closer
+with col1:
+    st.image(image_1, width=150)
+
+with col2:
+    st.image(image_2, width=150)
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
