@@ -6,7 +6,7 @@ image_1 = "Sustainable_Development_Goal_03GoodHealth.svg"
 image_2 = "APUlogo.jpg" 
 
 # Add image icons at the top left
-col1, col2 = st.columns(1,9)  # Create two columns
+col1, col2 = st.columns([1,9])  # Create two columns
 with col1:
     st.image(image_1, width=150, height=150)  
 
