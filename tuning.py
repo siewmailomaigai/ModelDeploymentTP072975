@@ -6,7 +6,12 @@ from lime_analysis import display_lime_analysis
 # Tuning Page
 def run_tuning_page():
     st.title("LightGBM Model Tuning for Understanding Treatment of Depression Disorders")
-    
+
+    # Add subtitles below the title
+    st.write("Name: Joel Ling Shern TP no: TP072975")
+    st.write("Supervisor: Dr. Minnu Helen Joseph")
+    st.write("2nd marker: Assoc. Prof. Dr. Nirase Fathima Abubacker")
+
     # Tuning sliders for key parameters
     n_estimators = st.slider("Number of Boosting Rounds (n_estimators)", 10, 150, 50)
     learning_rate = st.slider("Learning Rate", 0.01, 0.5, 0.1)
