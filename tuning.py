@@ -8,7 +8,7 @@ def run_tuning_page():
     st.title("LightGBM Model Tuning for Understanding Treatment of Depression Disorders")
 
     # Add subtitles below the title
-    st.write("Name: Joel Ling Shern TP no: TP072975")
+    st.write("Name: Joel Ling Shern TPno: TP072975")
     st.write("Supervisor: Dr. Minnu Helen Joseph")
     st.write("2nd marker: Assoc. Prof. Dr. Nirase Fathima Abubacker")
     st.write("") 
