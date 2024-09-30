@@ -11,8 +11,9 @@ def run_tuning_page():
     st.write("Name: Joel Ling Shern TP no: TP072975")
     st.write("Supervisor: Dr. Minnu Helen Joseph")
     st.write("2nd marker: Assoc. Prof. Dr. Nirase Fathima Abubacker")
-    st.write("")  # This creates an empty line
-
+    st.write("") 
+    st.write("")  
+    
     # Tuning sliders for key parameters
     n_estimators = st.slider("Number of Boosting Rounds (n_estimators)", 10, 150, 50)
     learning_rate = st.slider("Learning Rate", 0.01, 0.5, 0.1)
