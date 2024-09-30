@@ -10,10 +10,11 @@ def run_tuning_page():
     # Add subtitles below the title
     st.write("Name: Joel Ling Shern TP no: TP072975")
     st.write("Supervisor: Dr. Minnu Helen Joseph")
-    st.write("2nd marker: Assoc. Prof. Dr. Nirase Fathima Abubacker\n\n")
+    st.write("2nd marker: Assoc. Prof. Dr. Nirase Fathima Abubacker")
+    st.write("")  # This creates an empty line
 
     # Tuning sliders for key parameters
-    n_estimators = st.slider("\nNumber of Boosting Rounds (n_estimators)", 10, 150, 50)
+    n_estimators = st.slider("Number of Boosting Rounds (n_estimators)", 10, 150, 50)
     learning_rate = st.slider("Learning Rate", 0.01, 0.5, 0.1)
     max_depth = st.slider("Max Depth", -1, 20, -1)
 
